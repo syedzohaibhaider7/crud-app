@@ -1,0 +1,37 @@
+h2 {
+    text-align: center;
+}
+
+body {
+    text-align: center;
+    display: block;
+    border: 2px solid #02e615;
+    padding: 15px;
+    width: 70%;
+    margin: auto;
+    transform: translateY(35%);
+}
+
+img {
+    width: 50%;
+    height: 50%;
+    border: 2px solid #02e615;
+}
+
+input {
+    background-color: #02e615;
+    color: white;
+    padding: 10px 15px;
+    margin: 8px 10px;
+    border: none;
+    cursor: pointer;
+    width: 15%;
+}
+
+input:hover {
+    opacity: 0.8;
+}
+
+p {
+    color: #02e615;
+}

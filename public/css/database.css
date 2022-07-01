@@ -1,0 +1,66 @@
+body {
+    border: 2px solid #91aa04;
+}
+
+h2 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    color: #91aa04;
+}
+
+table {
+    width: 98%;
+    margin: 0px 12px;
+}
+
+table, th, td {
+    border: 1px solid #91aa04;
+    border-collapse: collapse;
+}
+
+th {
+    height: 50px;
+    background-color: #01818a;
+}
+
+td {
+    height: 25px;
+    text-align: center;
+    background-color: #018a5c;
+}
+
+#uname {
+    width: 25%;
+}
+
+#passwd {
+    width: 20%;
+}
+
+#email {
+    width: 30%;
+}
+
+#age {
+    width: 10%;
+}
+
+#gender {
+    width: 15%;
+}
+
+input {
+    background-color: #91aa04;
+    color: white;
+    padding: 10px 15px;
+    margin: 10px 12px;
+    border: none;
+    cursor: pointer;
+}
+
+input:hover {
+    opacity: 0.8;
+}

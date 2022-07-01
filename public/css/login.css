@@ -1,0 +1,42 @@
+h2 {
+    text-align: center;
+}
+
+form {
+    display: block;
+    border: 2px solid #04AA6D;
+    padding: 15px;
+    width: 30%;
+    margin: auto;
+    transform: translateY(60%);
+}
+
+input[type=text],
+input[type=password] {
+    width: 90%;
+    padding: 10px 10px;
+    margin: 5px 0px;
+    display: inline-block;
+    border: 1px solid rgb(139, 139, 139);
+}
+
+span {
+    color: red;
+}
+
+button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+p, a {
+    color: #04AA6D;
+}
