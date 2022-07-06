@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Database</title>
     <link rel="stylesheet" href="{{ asset('css/database.css') }}">
 </head>
+
 <body>
     <h2>Database</h2>
     <table>
@@ -21,12 +23,12 @@
         <?php
         foreach ($users as $user) { ?>
         <tr>
-            <td><?php {{ echo $user->name; }} ?></td>
-            <td><?php {{ echo $user->email; }} ?></td>
-            <td><?php {{ echo $user->password; }} ?></td>
-            <td><?php {{ echo $user->age; }} ?></td>
-            <td><?php {{ echo $user->gender; }} ?></td>
-            <td><?php {{ echo $user->role; }} ?></td>
+            <td><?php echo $user->name; ?></td>
+            <td><?php echo $user->email; ?></td>
+            <td><?php echo $user->password; ?></td>
+            <td><?php echo $user->age; ?></td>
+            <td><?php echo $user->gender; ?></td>
+            <td><?php echo $user->role; ?></td>
         </tr>
         <?php } ?>
     </table>
@@ -35,4 +37,5 @@
         <input type="submit" value="Dashboard">
     </form>
 </body>
+
 </html>

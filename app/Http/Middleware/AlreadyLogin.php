@@ -4,22 +4,25 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class EnsureUserHasRole
+class AlreadyLogin
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @param  string  $role
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next)
     {
-        if (! $request->user()->hasRole($role)) {
-            return route($role.'_dash');
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            return redirect('/admin_dash');
+        } else if (Auth::check() && Auth::user()->role == 'user') {
+            return redirect('/user_dash');
+        } else {
+            return $next($request);
         }
-        return $next($request);
     }
 }

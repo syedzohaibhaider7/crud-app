@@ -16,7 +16,9 @@ table {
     margin: 0px 12px;
 }
 
-table, th, td {
+table,
+th,
+td {
     border: 1px solid #91aa04;
     border-collapse: collapse;
 }

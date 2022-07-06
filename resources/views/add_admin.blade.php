@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+    <title>Add Admin</title>
+    <link rel="stylesheet" href="{{ asset('css/add_admin.css') }}">
 </head>
 
 <body>
     <form method="post">
-        <h2>Register</h2>
-        <p>Add a new user:</p>
+        <h2>Add Admin</h2>
+        <p>Add a new admin:</p>
         <label for="name"><b>Username: </b></label>
         <?php if ($errors->get("name")) { ?>
         <span><?php

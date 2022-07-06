@@ -5,21 +5,21 @@ h2 {
 body {
     text-align: center;
     display: block;
-    border: 2px solid #dd0382;
+    border: 2px solid #c92b87;
     padding: 15px;
     width: 70%;
     margin: auto;
-    transform: translateY(35%);
+    transform: translateY(30%);
 }
 
 img {
     width: 25%;
     height: 25%;
-    border: 2px solid #dd0382;
+    border: 2px solid #c92b87;
 }
 
 input {
-    background-color: #dd0382;
+    background-color: #c92b87;
     color: white;
     padding: 10px 15px;
     margin: 8px 10px;
@@ -33,5 +33,5 @@ input:hover {
 }
 
 p {
-    color: #02e615;
+    color: #c92b87;
 }
