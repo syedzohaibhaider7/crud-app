@@ -6,46 +6,28 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
     public function welcomeView()
     {
-        return view('welcome');
+        return view('auth.welcome');
     }
     public function loginView()
     {
-        return view('login');
+        return view('auth.login');
     }
     public function registerView()
     {
-        return view('register');
-    }
-    public function userDashView()
-    {
-        $user = Auth::user();
-        $data = ['name' => $user->name, 'email' => $user->email, 'password' => $user->password, 'age' => $user->age, 'gender' => $user->gender];
-        return view('user_dash', ['data' => $data]);
-    }
-    public function adminDashView()
-    {
-        $user = Auth::user();
-        $data = ['name' => $user->name, 'email' => $user->email, 'password' => $user->password, 'age' => $user->age, 'gender' => $user->gender];
-        return view('admin_dash', ['data' => $data]);
-    }
-    public function addAdminView()
-    {
-        return view('add_admin');
-    }
-    public function databaseView()
-    {
-        $users = User::all();
-        return view('database', ['users' => $users]);
+        return view('auth.register');
     }
     public function forgotPasswordView()
     {
-        return view('forgot_password');
+        return view('auth.forgot_password');
     }
+
+
     public function welcomePost(Request $request)
     {
         $value = $request->input('user');
@@ -55,67 +37,29 @@ class AuthController extends Controller
             return redirect()->route('register');
         }
     }
-    public function adminDashPost(Request $request)
+    public function forgotPasswordPost(Request $request)
     {
-        $value = $request->input('admin');
-        if ($value == "addAdmin") {
-            return redirect()->route('add_admin');
-        } else if ($value == "database") {
-            return redirect()->route('database');
-        } else if ($value == "logout") {
-            $this->logout($request);
-            return redirect('/');
+        $user = User::where([
+            'email' => $request->email
+        ])->first();
+
+        if ($user) {
+            $data = array(
+                'name' => $user->name,
+                'pass' => $user->password
+            );
+            $email = $user->email;
+            Mail::send('mail.forgot_pass_mail', $data, function ($message) use ($email) {
+                $message->to($email)->subject('Forgot Password?');
+                $message->from('sixlogics.ad123@gmail.com', 'Admin');
+            });
+            return redirect()->route('welcome');
+        } else {
+            return back()->withErrors(['notRegister' => '(This email is not registered.)'])->onlyInput('notRegister');
         }
     }
-    public function userDashPost(Request $request)
-    {
-        $value = $request->input('user');
-        if ($value == "logout") {
-            $this->logout($request);
-            return redirect('/');
-        }
-    }
-    public function addAdminPost(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|alpha|unique:users|max:50',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|max:12',
-            'age' => 'required|numeric|min:1|max:100',
-            'gender' => 'required'
-        ]);
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->age = $request->age;
-        $user->gender = $request->gender;
-        $user->role = 'admin';
-        $user->save();
 
-        $data = array(
-            'name' => $user->username,
-            'mail' => $user->email,
-            'pass' => $user->passwd,
-            'age' => $user->age,
-            'gender' => $user->gender
-        );
-        $email = $user->email;
-        Mail::send('mail', $data, function ($message) use ($email) {
-            $message->to($email)->subject('Admin Added to Database');
-            $message->from('sixlogics.ad123@gmail.com', 'Admin');
-        });
-
-        return redirect()->route('database');
-    }
-    public function databasePost(Request $request)
-    {
-        $value = $request->input('admin');
-        if ($value == "dashboard") {
-            return redirect()->route('admin_dash');
-        }
-    }
     public function login(Request $request)
     {
         $user = User::where([
@@ -134,15 +78,27 @@ class AuthController extends Controller
             return back()->withErrors(['loginFail' => '(The username or password is incorrect.)'])->onlyInput('loginFail');
         }
     }
+    public function registerDuplicateCheck(Request $request)
+    {
+        $name = $request->name;
+        $email = $request->email;
+        $nameMatched = User::where('name', '=', $name)->first();
+        $emailMatched = User::where('email', '=', $email)->first();
+        if (isset($nameMatched) && isset($emailMatched)) {
+            $duplicate = "dupBoth";
+            return response()->json(['success' => $duplicate]);
+        } elseif (isset($nameMatched)) {
+            $duplicate = "dupName";
+            return response()->json(['success' => $duplicate]);
+        } elseif (isset($emailMatched)) {
+            $duplicate = "dupEmail";
+            return response()->json(['success' => $duplicate]);
+        }
+    }
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|alpha|unique:users|max:50',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|max:12',
-            'age' => 'required|numeric|min:1|max:100',
-            'gender' => 'required'
-        ]);
+        $imageName = $request->name . '.' . $request->image->extension();
+        $request->file('image')->move(public_path('/images'), $imageName);
 
         $user = new User();
         $user->name = $request->name;
@@ -150,18 +106,19 @@ class AuthController extends Controller
         $user->password = $request->password;
         $user->age = $request->age;
         $user->gender = $request->gender;
+        $user->image = $imageName;
         $user->role = 'user';
         $user->save();
 
         $data = array(
-            'name' => $user->username,
+            'name' => $user->name,
             'mail' => $user->email,
-            'pass' => $user->passwd,
+            'pass' => $user->password,
             'age' => $user->age,
             'gender' => $user->gender
         );
         $email = $user->email;
-        Mail::send('mail', $data, function ($message) use ($email) {
+        Mail::send('mail.mail', $data, function ($message) use ($email) {
             $message->to($email)->subject('User Added to Database');
             $message->from('sixlogics.ad123@gmail.com', 'Admin');
         });
@@ -171,31 +128,10 @@ class AuthController extends Controller
 
         return redirect()->route('user_dash');
     }
-    public function logout(Request $request)
+    public static function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-    }
-    public function forgotPasswordPost(Request $request)
-    {
-        $user = User::where([
-            'email' => $request->email
-        ])->first();
-
-        if ($user) {
-            $data = array(
-                'name' => $user->name,
-                'pass' => $user->password
-            );
-            $email = $user->email;
-            Mail::send('forgot_pass_mail', $data, function ($message) use ($email) {
-                $message->to($email)->subject('Forgot Password?');
-                $message->from('sixlogics.ad123@gmail.com', 'Admin');
-            });
-            return redirect()->route('welcome');
-        } else {
-            return back()->withErrors(['notRegister' => '(This email is not registered.)'])->onlyInput('notRegister');
-        }
     }
 }

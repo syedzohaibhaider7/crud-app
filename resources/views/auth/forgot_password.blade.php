@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password?</title>
-    <link rel="stylesheet" href="{{ asset('css/forgot_password.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth/forgot_password.css') }}">
 </head>
 
 <body>

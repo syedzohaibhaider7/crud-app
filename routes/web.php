@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,26 +16,46 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/', [AuthController::class, 'welcomeView'])->middleware('loggedin')->name('welcome');
-Route::post('/', [AuthController::class, 'welcomePost']);
+Route::middleware('guest')->group(
+    function () {
+        Route::get('/', [AuthController::class, 'welcomeView'])->name('welcome');
+        Route::post('/', [AuthController::class, 'welcomePost']);
 
-Route::get('/login', [AuthController::class, 'loginView'])->middleware('loggedin')->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+        Route::get('/login', [AuthController::class, 'loginView'])->name('login');
+        Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/register', [AuthController::class, 'registerView'])->middleware('loggedin')->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+        Route::get('/register', [AuthController::class, 'registerView'])->name('register');
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/register/duplicate', [AuthController::class, 'registerDuplicateCheck']);
 
-Route::get('/user_dash', [AuthController::class, 'userDashView'])->middleware(['auth', 'user'])->name('user_dash');
-Route::post('/user_dash', [AuthController::class, 'userDashPost']);
+        Route::get('/forgot_password', [AuthController::class, 'forgotPasswordView'])->name('forgot_password');
+        Route::post('/forgot_password', [AuthController::class, 'forgotPasswordPost']);
+    }
+);
 
-Route::get('/admin_dash', [AuthController::class, 'adminDashView'])->middleware(['auth', 'admin'])->name('admin_dash');
-Route::post('/admin_dash', [AuthController::class, 'adminDashPost']);
+Route::middleware(['auth', 'authorize'])->group(
+    function () {
+        Route::prefix('user')->group(function () {
+            Route::get('/dashboard', [UserController::class, 'dashboardView'])->name('user_dash');
+            Route::post('/dashboard', [UserController::class, 'dashboardPost']);
+        });
 
-Route::get('/add_admin', [AuthController::class, 'addAdminView'])->middleware(['auth', 'admin'])->name('add_admin');
-Route::post('/add_admin', [AuthController::class, 'addAdminPost']);
+        Route::prefix('admin')->group(function () {
+            Route::get('/dashboard', [AdminController::class, 'dashboardView'])->name('admin_dash');
+            Route::post('/dashboard', [AdminController::class, 'dashboardPost']);
 
-Route::get('/database', [AuthController::class, 'databaseView'])->middleware(['auth', 'admin'])->name('database');
-Route::post('/database', [AuthController::class, 'databasePost']);
+            Route::get('/add', [AdminController::class, 'addView'])->name('add_admin');
+            Route::post('/add', [AdminController::class, 'addPost']);
+            Route::post('/add/duplicate', [AdminController::class, 'addDuplicateCheck']);
 
-Route::get('/forgot_password', [AuthController::class, 'forgotPasswordView'])->middleware('loggedin')->name('forgot_password');
-Route::post('/forgot_password', [AuthController::class, 'forgotPasswordPost']);
+            Route::get('/database', [AdminController::class, 'databaseView'])->name('database');
+            Route::post('/database', [AdminController::class, 'databasePost']);
+
+            Route::get('/edit/{id}', [AdminController::class, 'editView'])->name('edit');
+            Route::post('/edit/{id}', [AdminController::class, 'editPost']);
+            Route::post('/edit/{id}/duplicate', [AdminController::class, 'editDuplicateCheck']);
+
+            Route::get('/delete/{id}', [AdminController::class, 'delete'])->name('delete');
+        });
+    }
+);

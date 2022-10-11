@@ -1,5 +1,5 @@
 <h4>Hello <?php echo $name; ?></h4>
-<p>Your data has been inserted into our database. Your details are below:
+<p>Your data has been inserted/updated into our database. Your details are below:
 <ul>
     <li><b>Username:</b> <?php echo $name; ?></li>
     <li><b>Email:</b> <?php echo $mail; ?></li>

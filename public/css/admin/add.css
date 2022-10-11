@@ -4,11 +4,11 @@ h2 {
 
 form {
     display: block;
-    border: 2px solid #8e04aa;
+    border: 2px solid #8caa04;
     padding: 15px;
     width: 45%;
     margin: auto;
-    transform: translateY(35%);
+    transform: translateY(20%);
 }
 
 input[type=text],
@@ -26,9 +26,17 @@ input[type=radio] {
     margin: 6px 3px;
 }
 
+input[type=file] {
+    width: 50%;
+    padding: 5px 5px;
+    margin: 5px 0px;
+    display: inline-block;
+    border: 1px solid rgb(139, 139, 139);
+}
+
 input[type=submit],
 input[type=reset] {
-    background-color: #8e04aa;
+    background-color: #8caa04;
     color: white;
     padding: 10px 15px;
     margin: 8px 0px;
@@ -47,7 +55,7 @@ input[type=reset]:hover {
 }
 
 p {
-    color: #8e04aa;
+    color: #8caa04;
 }
 
 span {

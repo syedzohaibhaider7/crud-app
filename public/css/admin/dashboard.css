@@ -9,12 +9,12 @@ body {
     padding: 15px;
     width: 70%;
     margin: auto;
-    transform: translateY(30%);
+    transform: translateY(10%);
 }
 
 img {
-    width: 25%;
-    height: 25%;
+    width: 20%;
+    height: 20%;
     border: 2px solid #c92b87;
 }
 

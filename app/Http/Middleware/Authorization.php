@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AlreadyLogin
+class Authorization
 {
     /**
      * Handle an incoming request.
@@ -17,12 +17,11 @@ class AlreadyLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            return redirect('/admin_dash');
-        } else if (Auth::check() && Auth::user()->role == 'user') {
-            return redirect('/user_dash');
-        } else {
+        $role = explode('/', $request->path());
+        if ($role[0] == Auth::user()->role) {
             return $next($request);
+        } else {
+            return redirect('/' . Auth::user()->role . '/dashboard');
         }
     }
 }

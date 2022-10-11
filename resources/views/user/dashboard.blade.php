@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ asset('css/user_dash.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user/dashboard.css') }}">
 </head>
 
 <body>
     <h2>Dashboard</h2>
     <p>
-        <img src="{{ asset('hello-user.jpg') }}" alt="Hello User"><br><br>
+        <img src="{{ asset('images/' . $data['image']) }}" alt="Hello User"><br><br>
         Your details are as follows:<br>
         <b>Name:</b> {{ $data['name'] }}<br>
         <b>Email:</b> {{ $data['email'] }}<br>

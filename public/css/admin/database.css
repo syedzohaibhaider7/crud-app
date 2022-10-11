@@ -29,29 +29,51 @@ th {
 }
 
 td {
-    height: 25px;
+    height: 35px;
     text-align: center;
     background-color: #018a5c;
 }
 
-#uname {
-    width: 25%;
-}
-
-#passwd {
-    width: 20%;
+#name {
+    width: 15%;
 }
 
 #email {
-    width: 30%;
+    width: 25%;
+}
+
+#password {
+    width: 15%;
 }
 
 #age {
-    width: 10%;
+    width: 5%;
 }
 
 #gender {
-    width: 15%;
+    width: 7%;
+}
+
+#image {
+    width: 10%;
+}
+
+#role {
+    width: 7%;
+}
+
+#edit {
+    width: 7%;
+}
+
+#delete {
+    width: 7%;
+}
+
+img {
+    width: 60%;
+    height: 100%;
+    margin-bottom: -4%;
 }
 
 input {
@@ -65,4 +87,20 @@ input {
 
 input:hover {
     opacity: 0.8;
+}
+
+#ed {
+    text-decoration:none;
+    color: Black;
+    background-color: Gold;
+    display: block;
+    padding: 9%;
+}
+
+#del {
+    text-decoration:none;
+    color: Black;
+    background-color: IndianRed;
+    display: block;
+    padding: 9%;
 }
